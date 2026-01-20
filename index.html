@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frame 37 - Fotografia Analógica Completa</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
         rel="stylesheet">
@@ -949,23 +950,100 @@
     </div>
 
     <script>
-        // DATABASE
-        const defaultLabs = [
-            { id: 1, name: "Lab Classico", location: "São Paulo, SP", state: "SP", country: "brasil", city: "sao-paulo", services: ["pb", "c41", "e6"], priceLevel: "medium", delivery: "normal", rating: 4.8, votes: 45, badge: "Tradicional", status: "approved", description: "Laboratorio tradicional com 30 anos de experiencia em revelacao analogica. Equipamentos de ultima geracao e atendimento personalizado.", email: "contato@labclassico.com", phone: "(11) 3456-7890", address: "Rua Augusta, 1200 - Consolacao", prices: { pb35: 28, c41_35: 35, e6: 55, scan: 45 } },
-            { id: 2, name: "Revelacao Express", location: "Rio de Janeiro, RJ", state: "RJ", country: "brasil", city: "rio-de-janeiro", services: ["c41", "scan"], priceLevel: "low", delivery: "fast", rating: 4.2, votes: 32, badge: "Rapido", status: "approved", description: "Entrega rapida em 24-48h. Servico agil e confiavel para quem tem pressa.", email: "contato@express.com", phone: "(21) 9876-5432", address: "Av. Copacabana, 500", prices: { c41_35: 32, scan: 38 } },
-            { id: 3, name: "Filme e Arte", location: "São Paulo, SP", state: "SP", country: "brasil", city: "sao-paulo", services: ["pb", "c41", "e6", "scan"], priceLevel: "high", delivery: "normal", rating: 4.9, votes: 67, badge: "Premium", status: "approved", description: "Revelacao artistica com controle de qualidade rigoroso. Especialistas em filmes profissionais e fine art prints.", email: "contato@filmearte.com", phone: "(11) 2345-6789", address: "Rua Oscar Freire, 800 - Jardins", prices: { pb35: 38, c41_35: 48, e6: 75, scan: 60, pb120: 45, c41_120: 55 } }
-        ];
+        // SUPABASE CONFIGURATION
+        const SUPABASE_URL = 'https://usiccnjrfvxtioqyhqkk.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_kR9kPfdJaIsiOO3lOpoOKg_h0439AsD';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        function getLabSubmissions() { const d = localStorage.getItem('labSubmissions'); if (!d) { localStorage.setItem('labSubmissions', JSON.stringify(defaultLabs)); return defaultLabs; } return JSON.parse(d); }
-        function saveLabSubmissions(s) { localStorage.setItem('labSubmissions', JSON.stringify(s)); }
+        // Cache local para fallback
+        let labsCache = [];
+
+        // Buscar labs do Supabase
+        async function getLabsFromSupabase() {
+            try {
+                const { data, error } = await supabase
+                    .from('laboratories')
+                    .select('*')
+                    .eq('status', 'approved')
+                    .order('rating', { ascending: false });
+
+                if (error) throw error;
+                labsCache = data || [];
+                return data || [];
+            } catch (e) {
+                console.warn('Supabase offline, usando cache local:', e.message);
+                return labsCache.length ? labsCache : getLocalLabs();
+            }
+        }
+
+        // Fallback: labs locais
+        function getLocalLabs() {
+            return [
+                { id: 1, name: "Lab Clássico", location: "São Paulo, SP", state: "SP", country: "brasil", city: "sao-paulo", services: ["pb", "c41", "e6"], price_level: "medium", delivery: "normal", rating: 4.8, votes: 45, badge: "Tradicional", status: "approved", description: "Laboratório tradicional com 30 anos de experiência.", email: "contato@labclassico.com", phone: "(11) 3456-7890", address: "Rua Augusta, 1200", prices: { pb35: 28, c41_35: 35, e6: 55, scan: 45 } },
+                { id: 2, name: "Revelação Express", location: "Rio de Janeiro, RJ", state: "RJ", country: "brasil", city: "rio-de-janeiro", services: ["c41", "scan"], price_level: "low", delivery: "fast", rating: 4.2, votes: 32, badge: "Rápido", status: "approved", description: "Entrega rápida em 24-48h.", email: "contato@express.com", phone: "(21) 9876-5432", address: "Av. Copacabana, 500", prices: { c41_35: 32, scan: 38 } },
+                { id: 3, name: "Filme & Arte", location: "São Paulo, SP", state: "SP", country: "brasil", city: "sao-paulo", services: ["pb", "c41", "e6", "scan"], price_level: "high", delivery: "normal", rating: 4.9, votes: 67, badge: "Premium", status: "approved", description: "Revelação artística premium.", email: "contato@filmearte.com", phone: "(11) 2345-6789", address: "Rua Oscar Freire, 800", prices: { pb35: 38, c41_35: 48, e6: 75, scan: 60 } }
+            ];
+        }
+
+        // Buscar lab por ID
+        async function getLabById(id) {
+            try {
+                const { data } = await supabase
+                    .from('laboratories')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+                return data;
+            } catch (e) {
+                return labsCache.find(l => l.id === id) || getLocalLabs().find(l => l.id === id);
+            }
+        }
+
+        // Enviar avaliação
+        async function submitRatingToSupabase(labId, rating) {
+            try {
+                const lab = await getLabById(labId);
+                if (!lab) return false;
+
+                const totalScore = (lab.rating || 0) * (lab.votes || 0);
+                const newVotes = (lab.votes || 0) + 1;
+                const newRating = ((totalScore + rating) / newVotes).toFixed(1);
+
+                const { error } = await supabase
+                    .from('laboratories')
+                    .update({ rating: parseFloat(newRating), votes: newVotes })
+                    .eq('id', labId);
+
+                return !error;
+            } catch (e) {
+                console.error('Erro ao enviar avaliação:', e);
+                return false;
+            }
+        }
+
+        // Cadastrar lab
+        async function submitLabToSupabase(labData) {
+            try {
+                const { data, error } = await supabase
+                    .from('laboratories')
+                    .insert([labData])
+                    .select();
+
+                if (error) throw error;
+                return data?.[0];
+            } catch (e) {
+                console.error('Erro ao cadastrar:', e);
+                return null;
+            }
+        }
 
         // FILTER LABS
-        function filterLabs() {
+        async function filterLabs() {
             const country = document.getElementById('filterCountry')?.value || '';
             const state = document.getElementById('filterState')?.value || '';
             const cityInput = document.getElementById('filterCity')?.value?.toLowerCase() || '';
 
-            let labs = getLabSubmissions().filter(l => l.status === 'approved');
+            let labs = await getLabsFromSupabase();
 
             if (country) labs = labs.filter(l => (l.country || 'brasil') === country);
             if (state) labs = labs.filter(l => l.state === state);
@@ -996,27 +1074,29 @@
                     <div class="h-32 bg-gradient-to-br from-amber-warm/20 to-vintage-charcoal flex items-center justify-center"><span class="text-5xl">🔬</span></div>
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-3">
-                            <span class="px-3 py-1 bg-gradient-to-r from-amber-warm to-amber-copper text-vintage-black text-xs font-black rounded-full">${lab.badge}</span>
-                            <span class="text-amber-gold font-bold flex items-center gap-1">⭐ ${lab.rating}</span>
+                            <span class="px-3 py-1 bg-gradient-to-r from-amber-warm to-amber-copper text-vintage-black text-xs font-black rounded-full">${lab.badge || 'Lab'}</span>
+                            <span class="text-amber-gold font-bold flex items-center gap-1">⭐ ${lab.rating || 0}</span>
                         </div>
                         <h3 class="font-display text-2xl font-bold text-sepia-light mb-2 group-hover:text-amber-warm transition">${lab.name}</h3>
                         <p class="text-sepia-dark text-sm mb-3">📍 ${lab.location}</p>
-                        <div class="flex flex-wrap gap-1 mb-3">${lab.services.map(s => '<span class="px-2 py-1 bg-amber-warm/15 text-amber-warm text-xs rounded">' + s.toUpperCase() + '</span>').join('')}</div>
+                        <div class="flex flex-wrap gap-1 mb-3">${(lab.services || []).map(s => '<span class="px-2 py-1 bg-amber-warm/15 text-amber-warm text-xs rounded">' + s.toUpperCase() + '</span>').join('')}</div>
                         <div class="grid grid-cols-2 gap-2 mb-3 text-xs">
                             ${lab.prices?.pb35 ? '<div class="bg-vintage-black/30 rounded px-2 py-1"><span class="text-sepia-dark">P&B 35mm:</span> <span class="text-amber-warm font-bold">R$ ' + lab.prices.pb35 + '</span></div>' : ''}
                             ${lab.prices?.c41_35 ? '<div class="bg-vintage-black/30 rounded px-2 py-1"><span class="text-sepia-dark">C-41 35mm:</span> <span class="text-amber-warm font-bold">R$ ' + lab.prices.c41_35 + '</span></div>' : ''}
                             ${lab.prices?.scan ? '<div class="bg-vintage-black/30 rounded px-2 py-1"><span class="text-sepia-dark">Scan:</span> <span class="text-amber-warm font-bold">R$ ' + lab.prices.scan + '</span></div>' : ''}
                         </div>
-                        <p class="text-sepia-dark text-xs">${lab.votes} avaliacoes</p>
+                        <p class="text-sepia-dark text-xs">${lab.votes || 0} avaliações</p>
                     </div>
                 </div>
             `;
         }
 
         // RENDER LABS
-        function renderLabs() {
-            const labs = getLabSubmissions().filter(l => l.status === 'approved');
+        async function renderLabs() {
             const container = document.getElementById('labsContainer');
+            container.innerHTML = '<div class="col-span-3 text-center py-12"><p class="text-sepia">🔄 Carregando laboratórios...</p></div>';
+
+            const labs = await getLabsFromSupabase();
             container.innerHTML = labs.map(lab => `
                 <div onclick="openLabModal(${lab.id})" class="group cursor-pointer bg-gradient-to-br from-vintage-brown/60 to-vintage-charcoal/40 border-2 border-amber-warm/15 rounded-2xl overflow-hidden hover:border-amber-warm/40 hover:shadow-[0_12px_48px_rgba(0,0,0,0.6)] transform hover:-translate-y-3 transition-all duration-300">
                     <div class="h-32 bg-gradient-to-br from-amber-warm/20 to-vintage-charcoal flex items-center justify-center"><span class="text-5xl">🔬</span></div>
@@ -1043,14 +1123,14 @@
         let currentLabId = null;
         let selectedRating = 0;
 
-        function openLabModal(id) {
+        async function openLabModal(id) {
             currentLabId = id;
-            const lab = getLabSubmissions().find(l => l.id === id);
+            const lab = await getLabById(id);
             if (!lab) return;
             document.getElementById('modalLabName').textContent = lab.name;
             document.getElementById('modalLabLocation').textContent = lab.location;
-            document.getElementById('modalLabDesc').textContent = lab.description;
-            document.getElementById('modalLabServices').innerHTML = lab.services.map(s => '<span class="px-3 py-1 bg-amber-warm/20 text-amber-warm rounded-lg">' + s.toUpperCase() + '</span>').join('');
+            document.getElementById('modalLabDesc').textContent = lab.description || 'Sem descrição';
+            document.getElementById('modalLabServices').innerHTML = (lab.services || []).map(s => '<span class="px-3 py-1 bg-amber-warm/20 text-amber-warm rounded-lg">' + s.toUpperCase() + '</span>').join('');
 
             // Display prices
             const pricesHtml = [];
@@ -1065,7 +1145,7 @@
             // Display contact
             document.getElementById('modalLabContact').innerHTML = '<p>📧 ' + (lab.email || '-') + '</p><p>📞 ' + (lab.phone || '-') + '</p>' + (lab.address ? '<p>📍 ' + lab.address + '</p>' : '');
 
-            document.getElementById('currentRating').textContent = 'Nota atual: ' + lab.rating + '/5 (' + lab.votes + ' votos)';
+            document.getElementById('currentRating').textContent = 'Nota atual: ' + (lab.rating || 0) + '/5 (' + (lab.votes || 0) + ' votos)';
             selectedRating = 0;
             updateStars();
             document.getElementById('labModal').classList.add('active');
@@ -1080,35 +1160,34 @@
             stars.forEach((s, i) => { s.textContent = i < selectedRating ? '★' : '☆'; s.classList.toggle('active', i < selectedRating); });
         }
 
-        function submitRating() {
+        async function submitRating() {
             if (selectedRating === 0 || !currentLabId) { alert('Selecione uma nota!'); return; }
-            const labs = getLabSubmissions();
-            const lab = labs.find(l => l.id === currentLabId);
-            if (lab) {
-                const totalScore = lab.rating * lab.votes;
-                lab.votes++;
-                lab.rating = Math.round(((totalScore + selectedRating) / lab.votes) * 10) / 10;
-                saveLabSubmissions(labs);
-                alert('Avaliacao enviada! Obrigado.');
+
+            const success = await submitRatingToSupabase(currentLabId, selectedRating);
+            if (success) {
+                alert('✅ Avaliação enviada! Obrigado.');
                 closeLabModal();
                 renderLabs();
+            } else {
+                alert('❌ Erro ao enviar avaliação. Tente novamente.');
             }
         }
 
         // LAB MATCHER AI
-        function findBestLab() {
+        async function findBestLab() {
             const filmType = document.getElementById('labMatcherFilmType').value;
             const budget = document.getElementById('labMatcherBudget').value;
             const delivery = document.getElementById('labMatcherDelivery').value;
             const location = document.getElementById('labMatcherLocation').value;
-            const labs = getLabSubmissions().filter(l => l.status === 'approved');
+
+            const labs = await getLabsFromSupabase();
             let results = labs.map(lab => {
                 let score = 0, reasons = [];
-                if (filmType === 'any' || lab.services.includes(filmType)) { score += 30; reasons.push('Servico compativel'); }
-                if (budget === 'any' || budget === lab.priceLevel) { score += 25; reasons.push('Preco OK'); }
+                if (filmType === 'any' || (lab.services || []).includes(filmType)) { score += 30; reasons.push('Serviço compatível'); }
+                if (budget === 'any' || budget === (lab.price_level || lab.priceLevel)) { score += 25; reasons.push('Preço OK'); }
                 if (delivery === 'slow' || delivery === lab.delivery) { score += 25; reasons.push('Prazo OK'); }
                 if (location === 'any' || location === lab.city) { score += 20; reasons.push('Local OK'); }
-                score += lab.rating * 2;
+                score += (lab.rating || 0) * 2;
                 return { ...lab, score, reasons };
             }).filter(l => l.score > 0).sort((a, b) => b.score - a.score);
             displayResults(results);
@@ -1130,28 +1209,27 @@
         }
 
         // FORM SUBMIT
-        function submitLabRegistration(e) {
+        async function submitLabRegistration(e) {
             e.preventDefault();
             const state = document.getElementById('labState').value;
             const city = document.getElementById('labCity').value;
             const neighborhood = document.getElementById('labNeighborhood')?.value || '';
             const address = document.getElementById('labAddress')?.value || '';
 
-            const lab = {
-                id: Date.now(),
+            const labData = {
                 name: document.getElementById('labName').value,
                 email: document.getElementById('labEmail').value,
                 phone: document.getElementById('labPhone').value,
-                website: document.getElementById('labWebsite')?.value || '',
+                website: document.getElementById('labWebsite')?.value || null,
                 state: state,
                 city: city.toLowerCase().replace(/\s/g, '-'),
                 location: city + ', ' + state,
-                neighborhood: neighborhood,
-                address: address ? address + (neighborhood ? ' - ' + neighborhood : '') : '',
+                neighborhood: neighborhood || null,
+                address: address ? address + (neighborhood ? ' - ' + neighborhood : '') : null,
                 description: document.getElementById('labDescription').value,
                 services: Array.from(document.querySelectorAll('input[name="services"]:checked')).map(c => c.value),
                 delivery: document.getElementById('labDelivery')?.value || 'normal',
-                priceLevel: document.getElementById('labPriceLevel')?.value || 'medium',
+                price_level: document.getElementById('labPriceLevel')?.value || 'medium',
                 prices: {
                     pb35: parseInt(document.getElementById('pricePb35')?.value) || null,
                     c41_35: parseInt(document.getElementById('priceC41')?.value) || null,
@@ -1164,35 +1242,125 @@
                 rating: 0,
                 votes: 0,
                 badge: 'Novo',
-                submittedAt: new Date().toLocaleString('pt-BR')
+                country: 'brasil'
             };
-            const labs = getLabSubmissions();
-            labs.push(lab);
-            saveLabSubmissions(labs);
-            alert('✅ Cadastro enviado com sucesso!\n\nSeu laboratório será analisado e adicionado ao Frame 37 em até 48h.');
-            e.target.reset();
+
+            const result = await submitLabToSupabase(labData);
+            if (result) {
+                alert('✅ Cadastro enviado com sucesso!\n\nSeu laboratório será analisado e adicionado ao Frame 37 em até 48h.');
+                e.target.reset();
+            } else {
+                alert('❌ Erro ao enviar cadastro. Verifique sua conexão e tente novamente.');
+            }
         }
 
         // ADMIN
-        function openAdminPanel() { const pw = prompt('Senha:'); if (pw !== 'admin123') { if (pw) alert('Senha incorreta!'); return; } document.getElementById('adminPanel').classList.add('active'); loadAdminSubmissions(); }
-        function closeAdminPanel() { document.getElementById('adminPanel').classList.remove('active'); }
-        function loadAdminSubmissions(filter = 'all') {
-            const all = getLabSubmissions();
-            const filtered = filter === 'all' ? all : all.filter(s => s.status === filter);
-            document.getElementById('totalCount').textContent = all.length;
-            document.getElementById('pendingAdminCount').textContent = all.filter(s => s.status === 'pending').length;
-            document.getElementById('approvedCount').textContent = all.filter(s => s.status === 'approved').length;
-            document.getElementById('rejectedCount').textContent = all.filter(s => s.status === 'rejected').length;
-            document.getElementById('adminSubmissions').innerHTML = filtered.length === 0 ? '<p class="text-sepia-dark text-center">Nenhum cadastro</p>' : filtered.map(l => `
-                <div class="bg-vintage-charcoal/60 border border-amber-warm/20 rounded-xl p-4 mb-3">
-                    <div class="flex justify-between mb-2"><h4 class="font-bold text-sepia-light">${l.name}</h4><span class="text-xs px-2 py-1 rounded ${l.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' : l.status === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">${l.status}</span></div>
-                    <p class="text-sepia text-sm mb-2">${l.location || '-'}</p>
-                    ${l.status === 'pending' ? '<button onclick="updateStatus(' + l.id + ',`approved`)" class="px-3 py-1 bg-green-500/20 text-green-400 rounded mr-2">Aprovar</button><button onclick="updateStatus(' + l.id + ',`rejected`)" class="px-3 py-1 bg-red-500/20 text-red-400 rounded">Rejeitar</button>' : ''}
-                </div>
-            `).join('');
+        function openAdminPanel() {
+            const pw = prompt('Senha:');
+            if (pw !== 'admin123') {
+                if (pw) alert('Senha incorreta!');
+                return;
+            }
+            document.getElementById('adminPanel').classList.add('active');
+            loadAdminSubmissions();
         }
-        function updateStatus(id, status) { const labs = getLabSubmissions(); const i = labs.findIndex(l => l.id === id); if (i !== -1) { labs[i].status = status; saveLabSubmissions(labs); loadAdminSubmissions(); renderLabs(); } }
-        function exportData() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(getLabSubmissions(), null, 2)], { type: 'application/json' })); a.download = 'labs.json'; a.click(); }
+        function closeAdminPanel() { document.getElementById('adminPanel').classList.remove('active'); }
+
+        async function loadAdminSubmissions(filter = 'all') {
+            try {
+                let query = supabase.from('laboratories').select('*').order('created_at', { ascending: false });
+                if (filter !== 'all') query = query.eq('status', filter);
+
+                const { data: all } = await supabase.from('laboratories').select('*');
+                const { data: filtered } = await query;
+
+                document.getElementById('totalCount').textContent = (all || []).length;
+                document.getElementById('pendingAdminCount').textContent = (all || []).filter(s => s.status === 'pending').length;
+                document.getElementById('approvedCount').textContent = (all || []).filter(s => s.status === 'approved').length;
+                document.getElementById('rejectedCount').textContent = (all || []).filter(s => s.status === 'rejected').length;
+
+                document.getElementById('adminSubmissions').innerHTML = (filtered || []).length === 0
+                    ? '<p class="text-sepia-dark text-center">Nenhum cadastro</p>'
+                    : (filtered || []).map(l => `
+                    <div class="bg-vintage-charcoal/60 border border-amber-warm/20 rounded-xl p-4 mb-3">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-bold text-sepia-light text-lg">${l.name}</h4>
+                                <p class="text-sepia text-sm">📍 ${l.location || '-'}</p>
+                            </div>
+                            <span class="text-xs px-2 py-1 rounded ${l.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' : l.status === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'} uppercase font-bold tracking-wider">${l.status}</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 text-xs text-sepia-dark mb-3 mt-3 bg-vintage-black/30 p-3 rounded-lg">
+                            <div>
+                                <span class="block text-amber-warm/60">Contato</span>
+                                <p>📧 ${l.email || '-'}</p>
+                                <p>📞 ${l.phone || '-'}</p>
+                                <p>🌐 ${l.website || '-'}</p>
+                            </div>
+                            <div>
+                                <span class="block text-amber-warm/60">Endereço</span>
+                                <p>${l.address || '-'}</p>
+                                <p>Bairro: ${l.neighborhood || '-'}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <span class="text-xs text-amber-warm/60 block mb-1">Serviços</span>
+                            <div class="flex flex-wrap gap-1">
+                                ${(l.services || []).map(s => '<span class="px-2 py-0.5 bg-amber-warm/10 text-amber-warm text-xs rounded border border-amber-warm/20">' + s.toUpperCase() + '</span>').join('')}
+                            </div>
+                        </div>
+
+                        ${l.description ? `<div class="mb-4 text-xs text-sepia-dark italic">"${l.description}"</div>` : ''}
+                        
+                        ${l.prices ? `
+                        <div class="mb-4">
+                            <span class="text-xs text-amber-warm/60 block mb-1">Preços Principais</span>
+                            <div class="grid grid-cols-3 gap-2 text-xs">
+                                ${l.prices.pb35 ? `<div>P&B 35mm: <span class="text-sepia-light">R$ ${l.prices.pb35}</span></div>` : ''}
+                                ${l.prices.c41_35 ? `<div>C-41 35mm: <span class="text-sepia-light">R$ ${l.prices.c41_35}</span></div>` : ''}
+                                ${l.prices.scan ? `<div>Scan: <span class="text-sepia-light">R$ ${l.prices.scan}</span></div>` : ''}
+                            </div>
+                        </div>` : ''}
+
+                        ${l.status === 'pending' ? `
+                        <div class="flex gap-2 pt-3 border-t border-amber-warm/10">
+                            <button onclick="updateStatus(${l.id}, 'approved')" class="flex-1 py-2 bg-green-500/20 text-green-400 rounded hover:bg-green-500/30 transition-colors font-bold text-sm">✓ Aprovar</button>
+                            <button onclick="updateStatus(${l.id}, 'rejected')" class="flex-1 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-colors font-bold text-sm">✗ Rejeitar</button>
+                        </div>` : ''}
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error('Erro ao carregar admin:', e);
+                document.getElementById('adminSubmissions').innerHTML = '<p class="text-red-400 text-center">Erro ao carregar dados</p>';
+            }
+        }
+
+        async function updateStatus(id, status) {
+            try {
+                const { error } = await supabase
+                    .from('laboratories')
+                    .update({ status: status })
+                    .eq('id', id);
+
+                if (!error) {
+                    loadAdminSubmissions();
+                    renderLabs();
+                    alert('✅ Status atualizado!');
+                }
+            } catch (e) {
+                console.error('Erro ao atualizar:', e);
+            }
+        }
+
+        async function exportData() {
+            const { data } = await supabase.from('laboratories').select('*');
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([JSON.stringify(data || [], null, 2)], { type: 'application/json' }));
+            a.download = 'laboratories.json';
+            a.click();
+        }
 
         // SUNNY 16
         function calcSunny16() { const iso = parseInt(document.getElementById('sunny16ISO').value); document.getElementById('sunny16Result').textContent = '1/' + iso + 's'; }
