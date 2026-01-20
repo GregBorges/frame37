@@ -855,8 +855,9 @@
             </p>
             <div class="mt-4">
                 <a href="#" onclick="openAdminPanel(); return false;"
-                    class="text-sepia-dark/10 hover:text-amber-warm text-2xl transition-all cursor-pointer select-none"
+                    class="text-sepia-dark/60 hover:text-amber-warm text-2xl transition-all cursor-pointer select-none"
                     title="Admin Panel">📷</a>
+                <p class="text-[10px] text-sepia-dark/20 mt-2">v2.1</p>
             </div>
         </div>
     </footer>
@@ -955,6 +956,12 @@
 
     <script>
         // SUPABASE CONFIGURATION
+        /* 
+           ⚠️ NOTA DE SEGURANÇA:
+           Esta chave 'sb_publishable' (anon) é PÚBLICA e projetada para uso no front-end.
+           Ela é segura de ser exposta aqui. A proteção dos dados é feita pelas políticas 
+           de segurança (Row Level Security) configuradas diretamente no banco de dados.
+        */
         const SUPABASE_URL = 'https://usiccnjrfvxtioqyhqkk.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_kR9kPfdJaIsiOO3lOpoOKg_h0439AsD';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
