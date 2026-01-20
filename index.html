@@ -691,6 +691,149 @@
         </div>
     </div>
 
+    <!-- Lab Matcher AI Section -->
+    <section id="lab-matcher"
+        class="py-24 px-6 bg-gradient-to-b from-vintage-charcoal/30 to-vintage-black/50 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5"
+            style="background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(217,165,102,0.1) 20px, rgba(217,165,102,0.1) 22px);">
+        </div>
+
+        <div class="container mx-auto max-w-5xl relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="inline-block mb-4 px-5 py-2 bg-amber-warm/10 border border-amber-warm/30 rounded-full">
+                    <span class="text-amber-warm uppercase tracking-widest text-xs font-black">✦ IA Recomendadora
+                        ✦</span>
+                </div>
+                <h2
+                    class="font-display text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sepia-light to-amber-warm mb-4">
+                    Lab Matcher AI</h2>
+                <p class="text-sepia text-lg max-w-2xl mx-auto mb-6">Encontre o laboratório perfeito baseado em suas
+                    necessidades específicas</p>
+                <div class="flex items-center justify-center gap-3">
+                    <div class="w-16 h-1 bg-gradient-to-r from-transparent to-amber-warm"></div>
+                    <svg class="w-6 h-6 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <div class="w-16 h-1 bg-gradient-to-l from-transparent to-amber-warm"></div>
+                </div>
+            </div>
+
+            <!-- Matcher Form -->
+            <div
+                class="bg-gradient-to-br from-vintage-brown/40 to-vintage-charcoal/60 backdrop-blur-sm border-2 border-amber-warm/20 rounded-2xl p-8 shadow-2xl">
+
+                <!-- Form Grid -->
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <!-- Film Type -->
+                    <div>
+                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
+                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                            </svg>
+                            Tipo de Filme
+                        </label>
+                        <select id="labMatcherFilmType"
+                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
+                            <option value="">Selecione...</option>
+                            <option value="pb">Preto e Branco (P&B)</option>
+                            <option value="c41">Colorido (C-41)</option>
+                            <option value="e6">Slide (E-6)</option>
+                            <option value="any">Qualquer tipo</option>
+                        </select>
+                    </div>
+
+                    <!-- Budget -->
+                    <div>
+                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
+                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Orçamento
+                        </label>
+                        <select id="labMatcherBudget"
+                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
+                            <option value="">Selecione...</option>
+                            <option value="low">Econômico (até R$ 35)</option>
+                            <option value="medium">Médio (R$ 35-50)</option>
+                            <option value="high">Premium (R$ 50+)</option>
+                            <option value="any">Não importa</option>
+                        </select>
+                    </div>
+
+                    <!-- Delivery Time -->
+                    <div>
+                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
+                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Prazo de Entrega
+                        </label>
+                        <select id="labMatcherDelivery"
+                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
+                            <option value="">Selecione...</option>
+                            <option value="fast">Rápido (24-48h)</option>
+                            <option value="normal">Normal (3-7 dias)</option>
+                            <option value="slow">Não tenho pressa</option>
+                        </select>
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
+                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Localização Preferida
+                        </label>
+                        <select id="labMatcherLocation"
+                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
+                            <option value="">Selecione...</option>
+                            <option value="sao-paulo">São Paulo, SP</option>
+                            <option value="rio-de-janeiro">Rio de Janeiro, RJ</option>
+                            <option value="any">Qualquer (aceito envio)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Find Button -->
+                <button onclick="findBestLab()"
+                    class="w-full px-10 py-5 bg-gradient-to-r from-amber-warm to-amber-copper text-vintage-black font-black text-lg rounded-xl shadow-2xl hover:shadow-[0_0_40px_rgba(217,165,102,0.8)] transform hover:-translate-y-2 transition-all duration-300 flex items-center justify-center gap-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Encontrar Laboratório Ideal
+                </button>
+
+                <!-- Results -->
+                <div id="labMatchResults" class="mt-8 hidden">
+                    <div class="border-t-2 border-amber-warm/20 pt-8">
+                        <div class="flex items-center gap-2 mb-6">
+                            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                            <h3 class="text-2xl font-black text-amber-warm">Recomendação da IA:</h3>
+                        </div>
+
+                        <div id="recommendedLabs" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Filmes Section -->
     <section id="filmes" class="py-20 px-6 bg-vintage-black/50">
         <div class="container mx-auto max-w-7xl">
@@ -1646,150 +1789,6 @@
     </footer>
 
 
-    <!-- Lab Matcher AI Section -->
-    <section id="lab-matcher"
-        class="py-24 px-6 bg-gradient-to-b from-vintage-charcoal/30 to-vintage-black/50 relative overflow-hidden">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-5"
-            style="background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(217,165,102,0.1) 20px, rgba(217,165,102,0.1) 22px);">
-        </div>
-
-        <div class="container mx-auto max-w-5xl relative z-10">
-            <!-- Header -->
-            <div class="text-center mb-12">
-                <div class="inline-block mb-4 px-5 py-2 bg-amber-warm/10 border border-amber-warm/30 rounded-full">
-                    <span class="text-amber-warm uppercase tracking-widest text-xs font-black">✦ IA Recomendadora
-                        ✦</span>
-                </div>
-                <h2
-                    class="font-display text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sepia-light to-amber-warm mb-4">
-                    Lab Matcher AI</h2>
-                <p class="text-sepia text-lg max-w-2xl mx-auto mb-6">Encontre o laboratório perfeito baseado em suas
-                    necessidades específicas</p>
-                <div class="flex items-center justify-center gap-3">
-                    <div class="w-16 h-1 bg-gradient-to-r from-transparent to-amber-warm"></div>
-                    <svg class="w-6 h-6 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <div class="w-16 h-1 bg-gradient-to-l from-transparent to-amber-warm"></div>
-                </div>
-            </div>
-
-            <!-- Matcher Form -->
-            <div
-                class="bg-gradient-to-br from-vintage-brown/40 to-vintage-charcoal/60 backdrop-blur-sm border-2 border-amber-warm/20 rounded-2xl p-8 shadow-2xl">
-
-                <!-- Form Grid -->
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <!-- Film Type -->
-                    <div>
-                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
-                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
-                            </svg>
-                            Tipo de Filme
-                        </label>
-                        <select id="filmType"
-                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
-                            <option value="">Selecione...</option>
-                            <option value="pb">Preto e Branco (P&B)</option>
-                            <option value="c41">Colorido (C-41)</option>
-                            <option value="e6">Slide (E-6)</option>
-                            <option value="any">Qualquer tipo</option>
-                        </select>
-                    </div>
-
-                    <!-- Budget -->
-                    <div>
-                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
-                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            Orçamento
-                        </label>
-                        <select id="budget"
-                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
-                            <option value="">Selecione...</option>
-                            <option value="low">Econômico (até R$ 35)</option>
-                            <option value="medium">Médio (R$ 35-50)</option>
-                            <option value="high">Premium (R$ 50+)</option>
-                            <option value="any">Não importa</option>
-                        </select>
-                    </div>
-
-                    <!-- Delivery Time -->
-                    <div>
-                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
-                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            Prazo de Entrega
-                        </label>
-                        <select id="delivery"
-                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
-                            <option value="">Selecione...</option>
-                            <option value="fast">Rápido (24-48h)</option>
-                            <option value="normal">Normal (3-7 dias)</option>
-                            <option value="slow">Não tenho pressa</option>
-                        </select>
-                    </div>
-
-                    <!-- Location -->
-                    <div>
-                        <label class="flex items-center gap-2 text-sepia-light text-sm mb-3 font-semibold">
-                            <svg class="w-5 h-5 text-amber-warm" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            Localização Preferida
-                        </label>
-                        <select id="location"
-                            class="w-full bg-vintage-black/70 border-2 border-amber-warm/30 rounded-xl px-5 py-3.5 text-sepia-light focus:border-amber-warm focus:outline-none focus:ring-2 focus:ring-amber-warm/20 transition-all font-medium">
-                            <option value="">Selecione...</option>
-                            <option value="sao-paulo">São Paulo, SP</option>
-                            <option value="rio-de-janeiro">Rio de Janeiro, RJ</option>
-                            <option value="any">Qualquer (aceito envio)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Find Button -->
-                <button onclick="findBestLab()"
-                    class="w-full px-10 py-5 bg-gradient-to-r from-amber-warm to-amber-copper text-vintage-black font-black text-lg rounded-xl shadow-2xl hover:shadow-[0_0_40px_rgba(217,165,102,0.8)] transform hover:-translate-y-2 transition-all duration-300 flex items-center justify-center gap-3">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Encontrar Laboratório Ideal
-                </button>
-
-                <!-- Results -->
-                <div id="labMatchResults" class="mt-8 hidden">
-                    <div class="border-t-2 border-amber-warm/20 pt-8">
-                        <div class="flex items-center gap-2 mb-6">
-                            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                            <h3 class="text-2xl font-black text-amber-warm">Recomendação da IA:</h3>
-                        </div>
-
-                        <div id="recommendedLabs" class="space-y-4"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
     <!-- Lab Modal -->
     <div id="labModal" class="modal" onclick="if(event.target === this) closeModal()">
         <div
@@ -2472,263 +2471,167 @@
             return '🤔 Interessante! Aqui estão algumas sugestões:\n\n• Explore nosso **catálogo de filmes** para encontrar o ideal\n• Use a **Calculadora Sunny 16** para exposição\n• Confira os **laboratórios mais bem avaliados**\n• Leia nossos **guia de revelação**\n\nTem alguma pergunta mais específica sobre filmes, exposição ou laboratórios?';
         }
 
-        // Film Matcher AI Quiz
-        const quizQuestions = [
+
+        // Lab Matcher AI
+        const labDatabase = [
             {
-                question: "📸 Que tipo de fotografia você mais faz?",
-                answers: [
-                    { text: "Retratos e pessoas", value: "portrait" },
-                    { text: "Paisagens e natureza", value: "landscape" },
-                    { text: "Street photography", value: "street" },
-                    { text: "Arquitetura e urbano", value: "architecture" }
-                ]
+                name: "Lab Clássico",
+                location: "São Paulo, SP",
+                city: "sao-paulo",
+                services: ["pb", "c41", "e6"],
+                priceLevel: "medium",
+                delivery: "normal",
+                rating: 4.8,
+                badge: "Tradicional",
+                description: "Laboratório tradicional com décadas de experiência em revelação analógica.",
+                prices: { pb: 28, c41: 35, e6: 55 }
             },
             {
-                question: "☀️ Em que condições de luz você costuma fotografar?",
-                answers: [
-                    { text: "Luz do dia intensa", value: "bright" },
-                    { text: "Luz natural suave", value: "soft" },
-                    { text: "Ambientes internos", value: "indoor" },
-                    { text: "Golden hour / Pôr do sol", value: "golden" }
-                ]
+                name: "Revelação Express",
+                location: "Rio de Janeiro, RJ",
+                city: "rio-de-janeiro",
+                services: ["c41"],
+                priceLevel: "low",
+                delivery: "fast",
+                rating: 4.2,
+                badge: "Rápido",
+                description: "Entrega rápida em 24-48h. Serviço ágil e confiável.",
+                prices: { c41: 32 }
             },
             {
-                question: "🎨 Qual estilo você prefere?",
-                answers: [
-                    { text: "Cores vibrantes e saturadas", value: "vibrant" },
-                    { text: "Tons pastéis suaves", value: "pastel" },
-                    { text: "Preto e branco clássico", value: "bw" },
-                    { text: "Cores naturais realistas", value: "natural" }
-                ]
-            },
-            {
-                question: "💰 Qual seu orçamento por rolo?",
-                answers: [
-                    { text: "Econômico (até R$ 40)", value: "budget" },
-                    { text: "Médio (R$ 40-70)", value: "medium" },
-                    { text: "Premium (R$ 70+)", value: "premium" },
-                    { text: "Não importa o preço", value: "any" }
-                ]
-            },
-            {
-                question: "📊 Qual seu nível de experiência?",
-                answers: [
-                    { text: "Iniciante (primeiro rolo)", value: "beginner" },
-                    { text: "Intermediário (alguns rolos)", value: "intermediate" },
-                    { text: "Avançado (experiente)", value: "advanced" },
-                    { text: "Profissional", value: "pro" }
-                ]
+                name: "Filme & Arte",
+                location: "São Paulo, SP",
+                city: "sao-paulo",
+                services: ["pb", "c41", "e6"],
+                priceLevel: "high",
+                delivery: "normal",
+                rating: 4.9,
+                badge: "Premium",
+                description: "Especializado em revelação artística com controle de qualidade rigoroso.",
+                prices: { pb: 45, c41: 55, e6: 85 }
             }
         ];
 
-        let currentQuestion = 0;
-        let userAnswers = [];
+        function findBestLab() {
+            const filmType = document.getElementById('labMatcherFilmType').value;
+            const budget = document.getElementById('labMatcherBudget').value;
+            const delivery = document.getElementById('labMatcherDelivery').value;
+            const location = document.getElementById('labMatcherLocation').value;
 
-        function startQuiz() {
-            document.getElementById('startScreen').classList.add('hidden');
-            document.getElementById('questionScreen').classList.remove('hidden');
-            currentQuestion = 0;
-            userAnswers = [];
-            showQuestion();
-        }
+            // Filter and score labs
+            let results = labDatabase.map(lab => {
+                let score = 0;
+                let reasons = [];
 
-        function showQuestion() {
-            const q = quizQuestions[currentQuestion];
-            document.getElementById('currentQ').textContent = currentQuestion + 1;
-            document.getElementById('questionText').textContent = q.question;
-
-            // Update progress bars
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`prog${i}`).style.width = i <= currentQuestion ? '100%' : '0%';
-            }
-
-            // Show answers
-            const container = document.getElementById('answersContainer');
-            container.innerHTML = '';
-            q.answers.forEach((answer, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'w-full p-4 bg-vintage-charcoal/60 border-2 border-amber-warm/20 rounded-xl text-sepia-light text-left hover:border-amber-warm hover:bg-amber-warm/10 transition-all transform hover:scale-105';
-                btn.innerHTML = `<span class="font-semibold">${answer.text}</span>`;
-                btn.onclick = () => selectAnswer(answer.value);
-                container.appendChild(btn);
-            });
-        }
-
-        function selectAnswer(value) {
-            userAnswers.push(value);
-
-            if (currentQuestion < quizQuestions.length - 1) {
-                currentQuestion++;
-                showQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        function showResult() {
-            document.getElementById('questionScreen').classList.add('hidden');
-            document.getElementById('resultScreen').classList.remove('hidden');
-
-            // AI Logic to recommend film
-            const recommendation = getFilmRecommendation(userAnswers);
-
-            document.getElementById('filmEmoji').textContent = recommendation.emoji;
-            document.getElementById('filmName').textContent = recommendation.name;
-            document.getElementById('filmDesc').textContent = recommendation.description;
-            document.getElementById('filmISO').textContent = recommendation.iso;
-            document.getElementById('filmType').textContent = recommendation.type;
-
-            const tipsList = document.getElementById('tipsList');
-            tipsList.innerHTML = '';
-            recommendation.tips.forEach(tip => {
-                const li = document.createElement('li');
-                li.textContent = tip;
-                tipsList.appendChild(li);
-            });
-        }
-
-        function getFilmRecommendation(answers) {
-            const [photoType, light, style, budget, experience] = answers;
-
-            // Portrait + Pastel/Natural = Portra
-            if (photoType === 'portrait' && (style === 'pastel' || style === 'natural')) {
-                return {
-                    emoji: '🌸',
-                    name: 'Kodak Portra 400',
-                    description: 'O filme perfeito para retratos! Tons de pele incríveis, latitude de exposição generosa e cores naturais que fazem qualquer pessoa parecer ótima.',
-                    iso: '400',
-                    type: 'C-41 Color',
-                    tips: [
-                        'Ideal para luz natural e retratos ao ar livre',
-                        'Pode ser usado de ISO 200 a 800 (push/pull)',
-                        'Tons de pele são o ponto forte deste filme',
-                        'Funciona bem em overexposure (+1 stop)'
-                    ]
-                };
-            }
-
-            // Landscape + Vibrant = Ektar
-            if (photoType === 'landscape' && style === 'vibrant') {
-                return {
-                    emoji: '🏔️',
-                    name: 'Kodak Ektar 100',
-                    description: 'Cores ultra-saturadas e grão finíssimo! Perfeito para paisagens vibrantes com céus azuis intensos e verdes profundos.',
-                    iso: '100',
-                    type: 'C-41 Color',
-                    tips: [
-                        'Use tripé para máxima nitidez',
-                        'Melhor em luz do dia intensa',
-                        'Grão mais fino entre filmes coloridos',
-                        'Ótimo para scans de alta resolução'
-                    ]
-                };
-            }
-
-            // B&W preference
-            if (style === 'bw') {
-                if (experience === 'beginner' || budget === 'budget') {
-                    return {
-                        emoji: '⚫',
-                        name: 'Ilford HP5 Plus 400',
-                        description: 'O clássico P&B versátil! Grão agradável, contraste médio e perdoa erros de exposição. Perfeito para aprender.',
-                        iso: '400',
-                        type: 'P&B',
-                        tips: [
-                            'Pode ser usado de ISO 200 a 3200',
-                            'Fácil de revelar em casa',
-                            'Contraste controlável na revelação',
-                            'Excelente custo-benefício'
-                        ]
-                    };
+                // Film type match
+                if (filmType === 'any' || lab.services.includes(filmType)) {
+                    score += 30;
+                    if (filmType !== 'any') reasons.push(`✓ Oferece revelação ${filmType.toUpperCase()}`);
                 } else {
-                    return {
-                        emoji: '⬛',
-                        name: 'Kodak Tri-X 400',
-                        description: 'A lenda do fotojornalismo! Grão clássico, alto contraste e caráter único. O filme que documentou a história.',
-                        iso: '400',
-                        type: 'P&B',
-                        tips: [
-                            'Grão característico e bonito',
-                            'Excelente em push para ISO 1600-3200',
-                            'Ideal para street photography',
-                            'Contraste dramático'
-                        ]
-                    };
+                    return null; // Doesn't offer this service
                 }
-            }
 
-            // Street photography
-            if (photoType === 'street') {
-                return {
-                    emoji: '🏙️',
-                    name: 'Kodak Tri-X 400',
-                    description: 'O filme de street photography por excelência! Usado por mestres como Henri Cartier-Bresson. Contraste forte e grão icônico.',
-                    iso: '400',
-                    type: 'P&B',
-                    tips: [
-                        'Perfeito para luz variável da rua',
-                        'Push para ISO 800-1600 em situações escuras',
-                        'Grão adiciona atmosfera urbana',
-                        'Revelação em D-76 ou HC-110'
-                    ]
-                };
-            }
+                // Budget match
+                if (budget === 'any' || budget === lab.priceLevel) {
+                    score += 25;
+                    reasons.push(`✓ Preço compatível com seu orçamento`);
+                } else if ((budget === 'low' && lab.priceLevel === 'medium') ||
+                    (budget === 'medium' && lab.priceLevel === 'high')) {
+                    score += 10;
+                    reasons.push(`⚠ Preço um pouco acima do orçamento`);
+                }
 
-            // Golden hour / Pastel
-            if (light === 'golden' && style === 'pastel') {
-                return {
-                    emoji: '🌅',
-                    name: 'Fuji Pro 400H',
-                    description: 'Tons pastéis suaves e mágicos! Perfeito para golden hour com cores delicadas e atmosfera sonhadora.',
-                    iso: '400',
-                    type: 'C-41 Color',
-                    tips: [
-                        'Cores pastéis únicas do Fuji',
-                        'Excelente em luz suave',
-                        'Tons de pele delicados',
-                        'Ótimo para casamentos e retratos'
-                    ]
-                };
-            }
+                // Delivery match
+                if (delivery === 'slow' || delivery === lab.delivery) {
+                    score += 25;
+                    if (lab.delivery === 'fast') reasons.push(`✓ Entrega rápida em 24-48h`);
+                    else reasons.push(`✓ Prazo de entrega compatível`);
+                } else if (delivery === 'fast' && lab.delivery !== 'fast') {
+                    score += 5;
+                    reasons.push(`⚠ Prazo de entrega mais longo`);
+                }
 
-            // Budget conscious beginner
-            if (budget === 'budget' && experience === 'beginner') {
-                return {
-                    emoji: '💛',
-                    name: 'Kodak Gold 200',
-                    description: 'O filme perfeito para começar! Barato, confiável e com cores quentes agradáveis. Perdoa erros de exposição.',
-                    iso: '200',
-                    type: 'C-41 Color',
-                    tips: [
-                        'Excelente custo-benefício',
-                        'Cores quentes e agradáveis',
-                        'Perdoa erros de exposição',
-                        'Disponível em qualquer lugar'
-                    ]
-                };
-            }
+                // Location match
+                if (location === 'any' || location === lab.city) {
+                    score += 20;
+                    if (location !== 'any') reasons.push(`✓ Localizado em ${lab.location}`);
+                    else reasons.push(`✓ Aceita envio postal`);
+                }
 
-            // Default recommendation - Portra 400 (most versatile)
-            return {
-                emoji: '🎬',
-                name: 'Kodak Portra 400',
-                description: 'O filme mais versátil do mercado! Funciona bem em praticamente qualquer situação. Cores naturais, latitude incrível e qualidade profissional.',
-                iso: '400',
-                type: 'C-41 Color',
-                tips: [
-                    'Versátil para qualquer situação',
-                    'Latitude de exposição generosa',
-                    'Cores naturais e balanceadas',
-                    'Escolha segura para qualquer fotógrafo'
-                ]
-            };
+                // Rating bonus
+                score += lab.rating * 2;
+                reasons.push(`⭐ Avaliação: ${lab.rating}/5`);
+
+                return { ...lab, score, reasons };
+            }).filter(lab => lab !== null);
+
+            // Sort by score
+            results.sort((a, b) => b.score - a.score);
+
+            // Display results
+            displayLabResults(results);
         }
 
-        function restartQuiz() {
-            document.getElementById('resultScreen').classList.add('hidden');
-            document.getElementById('startScreen').classList.remove('hidden');
-            currentQuestion = 0;
-            userAnswers = [];
+        function displayLabResults(results) {
+            const container = document.getElementById('recommendedLabs');
+            const resultsDiv = document.getElementById('labMatchResults');
+
+            resultsDiv.classList.remove('hidden');
+            container.innerHTML = '';
+
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-vintage-charcoal/60 border-2 border-amber-warm/20 rounded-xl p-6 text-center">
+                        <p class="text-sepia-light">Nenhum laboratório encontrado com esses critérios. Tente ajustar os filtros.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            results.forEach((lab, index) => {
+                const isTop = index === 0;
+                const card = document.createElement('div');
+                card.className = `bg-gradient-to-br ${isTop ? 'from-amber-warm/20 to-vintage-charcoal/60 border-amber-warm/50' : 'from-vintage-charcoal/40 to-vintage-black/40 border-amber-warm/20'} border-2 rounded-xl p-6 transition-all hover:border-amber-warm/60`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                ${isTop ? '<span class="px-3 py-1 bg-green-500/20 border border-green-500/40 text-green-400 text-xs font-bold rounded-full">🏆 MELHOR MATCH</span>' : ''}
+                                <span class="px-3 py-1 bg-amber-warm/20 border border-amber-warm/40 text-amber-warm text-xs font-bold rounded-full">${lab.badge}</span>
+                            </div>
+                            <h4 class="text-2xl font-black text-sepia-light">${lab.name}</h4>
+                            <p class="text-sepia text-sm flex items-center gap-1">
+                                <svg class="w-4 h-4 text-amber-warm" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                                ${lab.location}
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl font-black text-amber-warm">${lab.score}%</div>
+                            <div class="text-sepia-dark text-xs uppercase">Match</div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-sepia-light text-sm mb-4">${lab.description}</p>
+                    
+                    <div class="bg-vintage-black/40 rounded-lg p-4 mb-4">
+                        <div class="text-amber-warm text-xs font-bold uppercase tracking-wider mb-2">💡 Por que recomendamos:</div>
+                        <ul class="text-sepia text-sm space-y-1">
+                            ${lab.reasons.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <button onclick="document.querySelector('[data-name=\\'${lab.name}\\']')?.click(); document.getElementById('labMatchResults').scrollIntoView({behavior:'smooth'})" 
+                            class="w-full px-4 py-3 bg-gradient-to-r from-amber-warm to-amber-copper text-vintage-black font-bold rounded-lg hover:shadow-[0_0_20px_rgba(217,165,102,0.6)] transition-all">
+                        Ver Detalhes do Laboratório
+                    </button>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     </script>
 
